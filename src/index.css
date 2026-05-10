@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Outfit", sans-serif;
+  --font-serif: "Playfair Display", serif;
+  
+  --color-brand-bg: #F7F5F2;
+  --color-brand-ivory: #FFFFFF;
+  --color-brand-primary: #111111;
+  --color-brand-secondary: #555555;
+  --color-brand-accent: #7A0F1F;
+  --color-brand-accent-hover: #5A0A16;
+  
+  --radius-brand: 24px;
+  
+  --shadow-brand: 0 30px 60px -12px rgba(0, 0, 0, 0.06);
+  --shadow-luxury: 0 20px 50px rgba(122, 15, 31, 0.15);
+}
+
+@layer base {
+  body {
+    @apply bg-brand-bg text-brand-primary font-sans antialiased selection:bg-brand-accent/10 selection:text-brand-accent overflow-x-hidden;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display tracking-tight font-medium;
+  }
+}
+
+.luxury-text-accent {
+  @apply font-serif italic text-brand-accent;
+}
+
+.gradient-burgundy {
+  background: linear-gradient(135deg, #7A0F1F, #2A0D2E);
+}
+
+.glass-card {
+  @apply bg-brand-ivory border border-black/5 shadow-brand backdrop-blur-sm transition-all duration-500;
+}
+
+@utility scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

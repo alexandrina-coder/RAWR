@@ -1,5 +1,24 @@
-import { motion } from 'motion/react';
+import { motion, useInView, animate, useMotionValue, useTransform } from 'motion/react';
+import { useRef, useEffect } from 'react';
 import { ChevronRight, CheckCircle2, Star, ShieldCheck, Sparkles, Zap } from 'lucide-react';
+
+function Counter({ value, decimals = 0, prefix = "", suffix = "" }: { value: number; decimals?: number; prefix?: string; suffix?: string }) {
+  const count = useMotionValue(0);
+  const rounded = useTransform(count, (latest) => {
+    return prefix + latest.toFixed(decimals).replace(/\B(?=(\d{3})+(?!\d))/g, ".") + suffix;
+  });
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  useEffect(() => {
+    if (isInView) {
+      const controls = animate(count, value, { duration: 2, ease: [0.16, 1, 0.3, 1] });
+      return () => controls.stop();
+    }
+  }, [isInView, value, count]);
+
+  return <motion.span ref={ref}>{rounded}</motion.span>;
+}
 
 export default function Hero() {
   const trustBadges = [
@@ -10,7 +29,9 @@ export default function Hero() {
   ];
 
   return (
-    <section className="relative pt-24 md:pt-40 pb-16 md:pb-24 overflow-hidden">
+    <section className="relative pt-24 md:pt-40 pb-16 md:pb-24 overflow-hidden" itemScope itemType="https://schema.org/AboutPage">
+      <meta itemProp="name" content="Expertise IA pour Cliniques Esthétiques" />
+      <meta itemProp="description" content="Découvrez comment RAWR automatise votre clinique esthétique avec l'IA pour augmenter vos revenus et libérer du temps médical." />
       {/* Background Orbs */}
       <div className="absolute top-0 right-0 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-brand-accent/5 rounded-full blur-[80px] md:blur-[120px] -mr-20 md:-mr-40 -mt-20 md:-mt-40" />
       <div className="absolute bottom-0 left-0 w-[200px] md:w-[400px] h-[200px] md:h-[400px] bg-brand-accent/5 rounded-full blur-[60px] md:blur-[100px] -ml-10 md:-ml-20 -mb-10 md:-mb-20" />
@@ -51,12 +72,16 @@ export default function Hero() {
 
             <div className="flex flex-wrap gap-6 md:gap-10">
               <div className="flex flex-col">
-                <div className="text-brand-accent font-display font-bold text-xl md:text-2xl">+45%</div>
+                <div className="text-brand-accent font-display font-bold text-xl md:text-2xl">
+                  <Counter value={45} prefix="+" suffix="%" />
+                </div>
                 <div className="text-[10px] uppercase text-brand-secondary tracking-widest font-bold">Réservations</div>
               </div>
               <div className="hidden sm:block w-[1px] h-12 bg-brand-primary/10"></div>
               <div className="flex flex-col">
-                <div className="text-brand-accent font-display font-bold text-xl md:text-2xl">-80%</div>
+                <div className="text-brand-accent font-display font-bold text-xl md:text-2xl">
+                  <Counter value={80} prefix="-" suffix="%" />
+                </div>
                 <div className="text-[10px] uppercase text-brand-secondary tracking-widest font-bold">No-shows</div>
               </div>
               <div className="hidden sm:block w-[1px] h-12 bg-brand-primary/10"></div>
@@ -94,10 +119,10 @@ export default function Hero() {
                   <div className="space-y-2 md:space-y-3">
                     <div className="text-[10px] md:text-[11px] uppercase font-bold text-brand-secondary tracking-[0.1em] mb-1">Impact mensuel estimé</div>
                     <div className="text-4xl sm:text-5xl md:text-6xl font-light tracking-tighter text-brand-primary">
-                      +12.450 <span className="text-brand-accent font-serif italic text-2xl md:text-3xl md:text-4xl">€</span>
+                      <Counter value={12450} prefix="+" /> <span className="text-brand-accent font-serif italic text-2xl md:text-3xl md:text-4xl">€</span>
                     </div>
                     <div className="inline-flex items-center gap-2 text-[10px] font-bold text-green-600 bg-green-50 px-2 py-1 rounded-md w-fit">
-                      <Zap size={10} fill="currentColor" /> Conversion +34%
+                      <Zap size={10} fill="currentColor" /> Conversion +<Counter value={34} />%
                     </div>
                   </div>
 
@@ -137,7 +162,9 @@ export default function Hero() {
                   <div className="grid grid-cols-2 gap-3 md:gap-4">
                     <div className="p-4 md:p-5 bg-brand-primary text-brand-ivory rounded-[20px] md:rounded-[28px] group-hover:translate-y-[-2px] transition-transform duration-500">
                       <div className="text-[8px] md:text-[9px] uppercase tracking-[0.2em] font-bold opacity-60 mb-1 md:mb-2">Automatisé</div>
-                      <div className="text-xl md:text-2xl font-light font-sans tracking-tight">98.2<span className="text-base md:text-lg opacity-40">%</span></div>
+                      <div className="text-xl md:text-2xl font-light font-sans tracking-tight">
+                        <Counter value={98.2} decimals={1} suffix="%" />
+                      </div>
                     </div>
                     <div className="p-4 md:p-5 bg-brand-accent text-brand-ivory rounded-[20px] md:rounded-[28px] group-hover:translate-y-[-2px] transition-transform duration-500">
                       <div className="text-[8px] md:text-[9px] uppercase tracking-[0.2em] font-bold opacity-60 mb-1 md:mb-2">Disponibilité</div>

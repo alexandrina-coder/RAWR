@@ -27,7 +27,11 @@ export default function Footer() {
           <div>
              <h4 className="text-[10px] uppercase font-bold tracking-[0.2em] text-brand-primary mb-6 md:mb-8">Contact</h4>
              <ul className="space-y-3 md:space-y-4 text-xs font-bold text-brand-secondary/70">
-               <li className="break-all md:break-normal">alexandrina@rawragent.com</li>
+               <li className="break-all md:break-normal">
+                 <a href="mailto:contact@rawragent.com" className="hover:text-brand-accent transition-colors">
+                   contact@rawragent.com
+                 </a>
+               </li>
                <li>HQ: Paris, France</li>
                <li className="flex gap-4 mt-4 md:mt-6">
                  <a href="#" className="hover:text-brand-accent transition-colors">LINKEDIN</a>

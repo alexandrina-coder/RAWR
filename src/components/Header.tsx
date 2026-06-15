@@ -37,7 +37,7 @@ export default function Header() {
         </a>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-10">
+        <nav className="hidden lg:flex items-center gap-10">
           {navLinks.map((link) => (
             <a 
               key={link.name}
@@ -49,19 +49,45 @@ export default function Header() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-4 md:gap-6">
           <a 
             href="#audit" 
-            className="hidden md:flex items-center gap-2 bg-brand-accent text-brand-ivory px-7 py-3 rounded-full text-xs font-bold tracking-tight transition-all hover:opacity-90 active:scale-95 shadow-luxury"
+            className="hidden sm:flex items-center gap-2 bg-brand-accent text-brand-ivory px-5 md:px-7 py-2.5 md:py-3 rounded-full text-[10px] md:text-xs font-bold tracking-tight transition-all hover:opacity-90 active:scale-95 shadow-luxury"
           >
             Audit gratuit
           </a>
           
           <button 
-            className="md:hidden text-brand-primary"
+            className="lg:hidden w-10 h-10 flex items-center justify-center text-brand-accent bg-white rounded-full shadow-sm border border-black/5"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle menu"
           >
-            {isMobileMenuOpen ? <X /> : <Menu />}
+            <motion.div
+              animate={isMobileMenuOpen ? "open" : "closed"}
+              className="relative w-5 h-4 flex flex-col justify-between"
+            >
+              <motion.span
+                variants={{
+                  closed: { rotate: 0, y: 0 },
+                  open: { rotate: 45, y: 7 }
+                }}
+                className="w-full h-0.5 bg-current rounded-full origin-center"
+              />
+              <motion.span
+                variants={{
+                  closed: { opacity: 1 },
+                  open: { opacity: 0 }
+                }}
+                className="w-full h-0.5 bg-current rounded-full"
+              />
+              <motion.span
+                variants={{
+                  closed: { rotate: 0, y: 0 },
+                  open: { rotate: -45, y: -7 }
+                }}
+                className="w-full h-0.5 bg-current rounded-full origin-center"
+              />
+            </motion.div>
           </button>
         </div>
       </div>
@@ -69,32 +95,76 @@ export default function Header() {
       {/* Mobile Nav */}
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="absolute top-full left-0 right-0 bg-brand-ivory border-b border-black/5 p-6 md:hidden shadow-xl"
-          >
-            <nav className="flex flex-col gap-4">
-              {navLinks.map((link) => (
-                <a 
-                  key={link.name}
-                  href={link.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-lg font-medium text-brand-primary"
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="fixed inset-0 bg-black/30 backdrop-blur-[2px] z-[-1] lg:hidden"
+            />
+            <motion.div
+              initial={{ opacity: 0, height: 0, y: -10 }}
+              animate={{ opacity: 1, height: 'auto', y: 0 }}
+              exit={{ opacity: 0, height: 0, y: -10 }}
+              transition={{ 
+                duration: 0.5, 
+                ease: [0.16, 1, 0.3, 1] // Custom quint ease-out for a more "premium" feel
+              }}
+              className="absolute top-full left-0 right-0 bg-brand-ivory border-b border-brand-accent/5 overflow-hidden lg:hidden shadow-2xl z-10"
+            >
+              <nav className="flex flex-col p-6 gap-2">
+                {navLinks.map((link, i) => (
+                  <motion.a 
+                    key={link.name}
+                    href={link.href}
+                    initial={{ opacity: 0, x: -15 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ 
+                      delay: 0.1 + (i * 0.05),
+                      duration: 0.4,
+                      ease: "easeOut"
+                    }}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center justify-between group p-3 rounded-xl hover:bg-white transition-colors"
+                  >
+                    <span className="text-base font-serif font-medium text-brand-primary group-hover:text-brand-accent transition-colors">
+                      {link.name}
+                    </span>
+                    <motion.div
+                      animate={{ x: [0, 5, 0] }}
+                      transition={{ 
+                        repeat: Infinity, 
+                        duration: 1.5, 
+                        repeatDelay: 2
+                      }}
+                    >
+                      <ChevronRight size={14} className="text-brand-accent opacity-0 group-hover:opacity-100 transition-all" />
+                    </motion.div>
+                  </motion.a>
+                ))}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ 
+                    delay: 0.2 + (navLinks.length * 0.05),
+                    duration: 0.5,
+                    ease: "easeOut"
+                  }}
+                  className="mt-4 pt-4 border-t border-black/5"
                 >
-                  {link.name}
-                </a>
-              ))}
-              <a 
-                href="#audit"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="flex items-center justify-center gap-2 bg-brand-accent text-brand-ivory px-6 py-4 rounded-brand text-lg font-bold"
-              >
-                Réserver un audit gratuit
-              </a>
-            </nav>
-          </motion.div>
+                  <a 
+                    href="#audit"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center justify-center gap-2 bg-brand-accent text-brand-ivory w-full py-4 rounded-xl text-sm font-bold shadow-lg transition-transform active:scale-95"
+                  >
+                    Réserver un audit gratuit
+                  </a>
+                </motion.div>
+              </nav>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </header>

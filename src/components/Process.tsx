@@ -10,7 +10,9 @@ export default function Process() {
   ];
 
   return (
-    <section id="processus" className="py-16 md:py-24 bg-brand-bg">
+    <section id="processus" className="py-16 md:py-24 bg-brand-bg" itemScope itemType="https://schema.org/HowTo">
+      <meta itemProp="name" content="Le processus RAWR" />
+      <meta itemProp="description" content="Quatre étapes simples pour transformer votre clinique esthétique avec l'intelligence artificielle." />
       <div className="max-w-7xl mx-auto px-4 md:px-6 text-center">
         <h2 className="text-3xl md:text-5xl font-bold mb-12 md:mb-16">Comment se déroule la mise en place ?</h2>
         

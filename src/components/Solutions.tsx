@@ -449,7 +449,9 @@ export default function Solutions() {
   };
 
   return (
-    <section id="solutions" className="py-24 bg-brand-ivory overflow-hidden">
+    <section id="solutions" className="py-24 bg-brand-ivory overflow-hidden" itemScope itemType="https://schema.org/OfferCatalog">
+      <meta itemProp="name" content="Nos Solutions d'IA Esthétique" />
+      <meta itemProp="description" content="Découvrez nos outils spécialisés : assistants de réservation, relances WhatsApp et systèmes anti-no-show pour optimiser votre clinique." />
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16 max-w-3xl mx-auto">
           <motion.span 
@@ -477,13 +479,13 @@ export default function Solutions() {
           </motion.p>
         </div>
 
-        {/* Navigation Tabs - Grid on mobile, flex on desktop */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:flex lg:flex-wrap lg:justify-center gap-2 md:gap-3 mb-10 lg:mb-24 px-4 lg:px-0 max-w-4xl mx-auto">
+        {/* Navigation Tabs - 3 columns on mobile/tablet, flex on desktop */}
+        <div className="grid grid-cols-3 lg:flex lg:flex-wrap lg:justify-center gap-1.5 md:gap-3 mb-10 lg:mb-24 px-2 sm:px-4 lg:px-0 max-w-4xl mx-auto">
           {solutions.map((sol, i) => (
             <button
               key={i}
               onClick={() => setActiveTab(i)}
-              className={`relative flex items-center justify-center lg:justify-start gap-2 md:gap-2.5 px-3 md:px-6 py-2.5 md:py-3 rounded-xl md:rounded-full text-[10px] md:text-sm font-bold transition-all duration-300 ${
+              className={`relative flex items-center justify-center lg:justify-start gap-1.5 md:gap-2.5 px-2 md:px-6 py-2.5 md:py-3 rounded-xl md:rounded-full text-[9px] sm:text-[10px] md:text-sm font-bold transition-all duration-300 ${
                 activeTab === i 
                 ? 'bg-brand-primary text-brand-ivory shadow-xl shadow-brand-primary/20 scale-[1.02] lg:scale-105' 
                 : 'bg-white text-brand-secondary/60 hover:text-brand-primary hover:bg-white/80 border border-black/5'
